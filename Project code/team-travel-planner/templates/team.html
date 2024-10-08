@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ team.name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <h1>{{ team.name }}'s Travels</h1>
+    <ul>
+        {% for travel_id, travel in team.travels.items() %}
+            <li>{{ travel.destination }} ({{ travel.start_date }} - {{ travel.end_date }})</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Add Travel</h2>
+    <form action="{{ url_for('add_travel', team_id=team.team_id) }}" method="POST">
+        <label for="travel_id">Travel ID:</label>
+        <input type="text" id="travel_id" name="travel_id" required>
+
+        <label for="destination">Destination:</label>
+        <input type="text" id="destination" name="destination" required>
+
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date" required>
+
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date" required>
+
+        <button type="submit">Add Travel</button>
+    </form>
+
+    <a href="{{ url_for('index') }}">Back to Teams</a>
+</body>
+</html>

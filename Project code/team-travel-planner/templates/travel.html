@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <h1>Travel to {{ travel.destination }}</h1>
+    <h2>Dates: {{ travel.start_date }} - {{ travel.end_date }}</h2>
+
+    <h2>Expenses</h2>
+    <ul id="expense-list">
+        {% for expense_id, expense in travel.expenses.items() %}
+            <li id="expense-{{ expense_id }}">
+                {{ expense.category }} - ${{ expense.amount }} - {{ expense.description }}
+                <button class="remove-expense" data-expense-id="{{ expense_id }}">Remove</button>
+                <button class="update-expense" data-expense-id="{{ expense_id }}">Update</button>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Add New Expense</h2>
+    <form id="add-expense-form" action="{{ url_for('add_expense', travel_id=travel.travel_id) }}" method="POST">
+        <label for="expense_id">Expense ID:</label>
+        <input type="text" id="expense_id" name="expense_id" required>
+
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" name="amount" required>
+
+        <label for="category">Category:</label>
+        <input type="text" id="category" name="category" required>
+
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description">
+
+        <button type="submit">Add Expense</button>
+    </form>
+
+    <h2>Update Expense</h2>
+    <form id="update-expense-form" style="display:none;">
+        <input type="hidden" id="update-expense-id" name="expense_id">
+        <label for="update-amount">Amount:</label>
+        <input type="number" id="update-amount" name="amount" required>
+
+        <label for="update-category">Category:</label>
+        <input type="text" id="update-category" name="category" required>
+
+        <label for="update-description">Description:</label>
+        <input type="text" id="update-description" name="description">
+
+        <button type="submit">Update Expense</button>
+    </form>
+
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body>
+</html>
